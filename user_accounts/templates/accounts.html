@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}View Accounts{% endblock %}
+
+{% block content %}
+{{ block.super }}
+{% if user.is_authenticated %}
+  <h2>{{ user.username }}'s Account List:</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Account</th>
+        <th>Market Value</th>
+        <th>MTD Return</th>
+        <th>YTD Return</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for account in user_accounts %}
+        <tr>
+          <td>{{ account.name }}</td>
+          <td>{{ account.value }}</td>
+          <td>{{ account.mtd_return }}</td>
+          <td>{{ account.ytd_return }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
+
+<h1>Positions for {{ user.username }}</h1>
+<table>
+{% for position in positions %}
+    <tr>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    <tr>
+        <td>{{ position.symbol }}</td>
+        <td>{{ position.quantity }}</td>
+        <td>{{ position.price }}</td>
+    </tr>
+{% empty %}
+    <tr>
+        <td colspan="3">No positions found.</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

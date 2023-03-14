@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
+  <h1>Leaderboard</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>MTD Return</th>
+        <th>YTD Return</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user, values in user_accounts.items %}
+        <tr>
+          <td><a href="{% url 'user_positions' user.id %}">{{ user.username }}</a></td>
+          <td>{{ values.0 }}</td>
+          <td>{{ values.1 }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

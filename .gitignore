@@ -1,3 +1,14 @@
 /venv/
 /paper_trader/__pycache__/
 /paper_trader/.env
+/erd.drawio
+/erd.png
+/positions/__pycache__/
+/transactions/__pycache__/
+/user_accounts/__pycache__/
+/user_accounts/migrations/
+/transactions/migrations/
+/positions/migrations/
+
+
+

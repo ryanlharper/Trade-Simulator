@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Account{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <form method="POST">
+    {% csrf_token %}
+    <label for="name">Account name:</label>
+    <input type="text" id="name" name="name">
+    <button type="submit">Add account</button>
+  </form>
+{% endif %}
+{% endblock %}
+
+
+

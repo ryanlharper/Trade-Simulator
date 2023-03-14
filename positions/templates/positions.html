@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
+
+  <h1>Positions</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Cost</th>
+        <th>Value</th>
+        <th>Price Return</th>
+        <th>Market Value</th>
+        <th>% of Portfolio</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for position in positions %}
+      <tr>
+        <td>{{ position.symbol }}</td>
+        <td>{{ position.quantity }}</td>
+        <td>{{ position.price }}</td>
+        <td>{{ position.cost }}</td>
+        <td>{{ position.value }}</td>
+        <td>{{ position.price_return }}</td>
+        <td>{{ position.market_value }}</td>
+        <td>{{ position.percent_portfolio }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8">No positions found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}

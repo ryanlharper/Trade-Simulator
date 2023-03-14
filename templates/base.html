@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Paper Trader{% endblock %}</title>
+</head>
+<body>
+  <main>
+    {% block content %}
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/register">Register</a> |
+      <a href="{% url 'login' %}">Login</a> |
+      <a href="{% url 'positions' %}">My Positions</a> |
+      <a href="{% url 'transactions' %}">Create Transaction</a> |
+      <a href="{% url 'logout' %}">Logout</a> |       
+    </nav>
+    {% endblock %}
+  </main>
+</body>
+</html>
