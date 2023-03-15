@@ -4,22 +4,47 @@
 {{ block.super }}
 
 <h1>Positions for {{ user.username }}</h1>
-<table>
 {% for position in positions %}
-    <tr>
-        <th>Symbol</th>
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    <tr>
-        <td>{{ position.symbol }}</td>
-        <td>{{ position.quantity }}</td>
-        <td>{{ position.price }}</td>
-    </tr>
+    <h2>{{ position.title }}</h2>
+    <p>{{ position.description }}</p>
+    <table>
+        <tr>
+            <th>Symbol</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>{{ position.symbol }}</td>
+            <td>{{ position.quantity }}</td>
+            <td>{{ position.price }}</td>
+        </tr>
+    </table>
+    <h3>Comments</h3>
+    <ul>
+        {% for comment in position.comments.all %}
+            <li>{{ comment.text }} - {{ comment.author.username }} ({{ comment.created_date }})</li>
+            <ul>
+                {% for reply in comment.replies.all %}
+                    <li>{{ reply.text }} - {{ reply.author.username }} ({{ reply.created_date }})</li>
+                {% empty %}
+                    <li>No replies yet.</li>
+                {% endfor %}
+            </ul>
+            <form method="post" action="{% url 'add_reply' comment.pk %}">
+                {% csrf_token %}
+                <input type="text" name="text">
+                <input type="submit" value="Reply">
+            </form>
+        {% empty %}
+            <li>No comments yet.</li>
+        {% endfor %}
+        <form method="post" action="{% url 'add_comment' position.pk %}">
+            {% csrf_token %}
+            <input type="text" name="text">
+            <input type="submit" value="Comment">
+        </form>
+    </ul>
 {% empty %}
-    <tr>
-        <td colspan="3">No positions found.</td>
-    </tr>
+    <p>No positions found.</p>
 {% endfor %}
-</table>
 {% endblock %}
