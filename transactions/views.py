@@ -41,12 +41,16 @@ def update_position_and_transaction(request):
                     market_value = market_value,
                     percent_portoflio = market_value / (Position.objects.filter(user=request.user).aggregate(Sum('market_value'))['market_value__sum']) * 100
                 )
+                    position.save()
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity -= price * quantity
                     cash_position.save()
-                else: 
-                    #figure out averaging cost
-                    #raw SQL "UPDATE positions_position SET quantity = positions.quanity += quantity WHERE symbol = symbol AND user = user"
+                else:
+                    new_quantity = position.quantity + quantity
+                    new_cost = ((position.cost * position.quantity) + (price * quantity)) / new_quantity
+                    position.quantity = new_quantity
+                    position.cost = new_cost
+                    position.save()
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity -= price * quantity
                     cash_position.save()
@@ -64,20 +68,17 @@ def update_position_and_transaction(request):
                     cash_position.save()
                 else:
                     #update position for partial sell
-                    position = Position.objects.create(
-                    user=user,
-                    symbol=symbol,                
-                    quantity=quantity,
-                    price=price,
-                    cost = price,
-                    price_return = ((price - cost) / price) * 100,
-                    market_value = market_value,
-                    percent_portoflio = market_value / (Position.objects.filter(user=request.user).aggregate(Sum('market_value'))['market_value__sum']) * 100
-                )
+                    position = Position.objects.get(user=user, symbol=symbol)
+                    position.quantity -= quantity,
+                    position.price = price,
+                    position.price_return = ((price - cost) / price) * 100,
+                    position.market_value = market_value,
+                    position.percent_portoflio = market_value / (Position.objects.filter(user=request.user).aggregate(Sum('market_value'))['market_value__sum']) * 100
+                    position.save()
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity += price * quantity
                     cash_position.save()
-            position.save()
+            
 
             # Create a new transaction
             transaction = Transaction.objects.create(

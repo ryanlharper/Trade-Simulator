@@ -42,17 +42,17 @@ class TransactionForm(forms.ModelForm):
             cash_position = user_account.position_set.get(symbol='cash')
             if cash_position.market_value < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
                 raise ValidationError("Not enough cash")
-        else:
-            # check if transaction is during market open
-            timestamp = datetime.now(timezone.utc)
-            nyse = mcal.get_calendar('NYSE')
-            schedule = nyse.schedule(start_date=timestamp.date(), end_date=timestamp.date())
-            if len(schedule) == 0:
-                    raise ValidationError('Market is closed')
             else:
-                market_open = pd.Timestamp(schedule.iloc[0]['market_open'].strftime('%Y-%m-%d %H:%M:%S'))
-                market_close = pd.Timestamp(schedule.iloc[0]['market_close'].strftime('%Y-%m-%d %H:%M:%S'))
-                timestamp = pd.Timestamp(timestamp.strftime('%Y-%m-%d %H:%M:%S'))
-                if timestamp < market_open or timestamp > market_close:
-                    raise ValidationError('Market is closed')
+                # check if transaction is during market open
+                timestamp = datetime.now(timezone.utc)
+                nyse = mcal.get_calendar('NYSE')
+                schedule = nyse.schedule(start_date=timestamp.date(), end_date=timestamp.date())
+                if len(schedule) == 0:
+                        raise ValidationError('Market is closed')
+                else:
+                    market_open = pd.Timestamp(schedule.iloc[0]['market_open'].strftime('%Y-%m-%d %H:%M:%S'))
+                    market_close = pd.Timestamp(schedule.iloc[0]['market_close'].strftime('%Y-%m-%d %H:%M:%S'))
+                    timestamp = pd.Timestamp(timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+                    if timestamp < market_open or timestamp > market_close:
+                        raise ValidationError('Market is closed')
 
