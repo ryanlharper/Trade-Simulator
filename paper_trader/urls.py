@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView 
 from .views import SignUpView, LeaderboardView
-from transactions.views import create_transaction, success_view
+from transactions.views import update_position_and_transaction
 from positions.views import positions_view, user_positions, add_comment, add_reply
 
 urlpatterns = [
@@ -25,8 +25,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', LeaderboardView.as_view(), name='home'),
     path('register/', SignUpView.as_view(), name='register'),
-    path('transactions/', create_transaction, name='transactions'),
-    path('transactions/', success_view, name='transaction_success'),
+    path('transactions/', update_position_and_transaction, name='transactions'),
     path('positions/', positions_view, name='positions'),
     path('positions/<int:user_id>/', user_positions, name='user_positions'),
     path('position/<int:position_id>/comment/', add_comment, name='add_comment'),
