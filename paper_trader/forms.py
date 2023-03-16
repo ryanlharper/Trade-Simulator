@@ -48,10 +48,14 @@ class TransactionForm(forms.ModelForm):
             if timestamp < market_open or timestamp > market_close:
                 raise ValidationError('Market is closed')
 
-        user_account = get_object_or_404(UserAccount, user=self.request.user)
-        cash_position = user_account.position.get(symbol='cash')
-        if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
-            raise ValidationError("Not enough cash")
+        # check if funds are available for transaction
+        if type == 'buy':
+            user_account = get_object_or_404(UserAccount, user=self.request.user)
+            cash_position = user_account.position.get(symbol='cash')
+            if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
+                raise ValidationError("Not enough cash")
+            
+        
 
                 
 
