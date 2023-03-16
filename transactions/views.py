@@ -10,6 +10,7 @@ from .models import Transaction
 from user_accounts.models import AccountValue, UserAccount
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
+from datetime import datetime, timezone
 
 @login_required
 def update_position_and_transaction(request):
@@ -24,7 +25,7 @@ def update_position_and_transaction(request):
             user = request.user
             price = Decimal(yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1])
             cost = price
-            market_value = price * quantity
+            print(datetime.now(timezone.utc))
             
             # Get the position for this symbol if exists
             try:
@@ -41,15 +42,10 @@ def update_position_and_transaction(request):
                     quantity=quantity,
                     price=price,
                     cost = price,
-                    price_return = ((price - cost) / price) * 100,
-                    market_value = market_value,
-                    percent_portfolio = market_value / (float(Position.objects.filter(user=request.user).aggregate(Sum('market_value'))['market_value__sum'])) * 100
-
                 )
                     position.save()
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity -= Decimal(price) * quantity
-                    cash_position.market_value = cash_position.quantity * 1
                     cash_position.save()
                 else:
                     new_quantity = position.quantity + quantity
@@ -59,7 +55,6 @@ def update_position_and_transaction(request):
                     position.save()
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity -= price * quantity
-                    cash_position.market_value = cash_position.quantity * 1
                     cash_position.save()
             elif transaction_type == 'sell':
                 if position.quantity < quantity:
@@ -72,20 +67,15 @@ def update_position_and_transaction(request):
                     # update cash quantity
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity += price * quantity
-                    cash_position.market_value = cash_position.quantity * 1
                     cash_position.save()
                 else:
                     #update position for partial sell
                     position = Position.objects.get(user=user, symbol=symbol)
-                    position.quantity -= quantity,
-                    position.price = price,
-                    position.price_return = ((price - cost) / price) * 100,
-                    position.market_value = market_value,
-                    position.percent_portoflio = market_value / (Position.objects.filter(user=request.user).aggregate(Sum('market_value'))['market_value__sum']) * 100
+                    position.quantity -= quantity
+                    position.price = price
                     position.save()
                     cash_position = Position.objects.get(user=user, symbol='cash')
                     cash_position.quantity += price * quantity
-                    cash_position.market_value = cash_position.quantity * 1
                     cash_position.save()
             
 
@@ -106,15 +96,12 @@ def update_position_and_transaction(request):
             account_value = AccountValue.objects.create(
                 user_account = user_account,
                 date=date.today(),
-                value = sum([p.market_value for p in get_positions]),
-                mtd_return = sum([p.market_value for p in get_positions]), #add last month value to calc
-                ytd_return = sum([p.market_value for p in get_positions])  #add value earliest in current year to calc
             )
             account_value.save()
 
             # Redirect to the success page
             messages.success(request, "Transaction successful")
-            return redirect('success.html') 
+            return redirect('success') 
 
     else:
         form = TransactionForm()
@@ -124,3 +111,5 @@ def update_position_and_transaction(request):
     }
     return render(request, 'transactions.html', context)
 
+def success_view(request):
+    return render(request, 'success.html')
