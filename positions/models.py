@@ -8,7 +8,6 @@ class Position(models.Model):
     quantity = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     cost = models.DecimalField(max_digits=10, decimal_places=2, default=None)
-    value = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     price_return = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     market_value = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     percent_portfolio = models.DecimalField(max_digits=10, decimal_places=2, default=None)
