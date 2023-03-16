@@ -8,21 +8,17 @@ class Position(models.Model):
     quantity = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=None)
     cost = models.DecimalField(max_digits=10, decimal_places=2, default=None)
-    price_return = models.DecimalField(max_digits=10, decimal_places=2, default=None)
-    market_value = models.DecimalField(max_digits=10, decimal_places=2, default=None)
-    percent_portfolio = models.DecimalField(max_digits=10, decimal_places=2, default=None)
+    
+    def price_return(self):
+        return ((self.price - self.cost) / self.price) * 100
+    
+    def market_value(self):
+        return self.quantity * self.price
 
-    def update_position(self, transaction):
-        if transaction.symbol == self.symbol:
-            if transaction.type == 'buy':
-                total_cost = self.quantity * self.cost_basis + transaction.quantity * transaction.price
-                total_quantity = self.quantity + transaction.quantity
-                self.cost_basis = total_cost / total_quantity
-                self.quantity = total_quantity
-            elif transaction.type == 'sell':
-                self.quantity -= transaction.quantity
-
-            self.save()
+    def percent_portfolio(self):
+        user_positions = Position.objects.filter(user=self.user)
+        total_portfolio_value = sum(position.market_value() for position in user_positions)
+        return (self.market_value() / total_portfolio_value) * 100
 
 class Comment(models.Model):
     position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name='comments')
