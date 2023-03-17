@@ -9,6 +9,6 @@
 /user_accounts/migrations/
 /transactions/migrations/
 /positions/migrations/
-
+.dockerignore
 
 

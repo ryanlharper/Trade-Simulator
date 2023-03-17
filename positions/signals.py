@@ -13,9 +13,5 @@ def create_user_positions(sender, instance, created, **kwargs):
             quantity=Decimal('100000'),
             price=Decimal('1.00'),
             cost=Decimal('1.00'),
-            value=Decimal('100000'),
-            price_return=0,
-            market_value=100000,
-            percent_portfolio=100,
         )
 

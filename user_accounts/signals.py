@@ -9,6 +9,6 @@ def create_user_account(sender, instance, created, **kwargs):
     if created:
         user_account = UserAccount.objects.create(user=instance)
         today = date.today()
-        AccountValue.objects.create(user_account=user_account, date=today, value=100000, mtd_return=0, ytd_return=0)
+        AccountValue.objects.create(user_account=user_account, date=today, value=100000)
 
 
