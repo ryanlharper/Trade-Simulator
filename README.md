@@ -1,5 +1,5 @@
 # Trade Simulator
-Trade Simulator is a Python-based Trade Simulation program that is built with Python, Django, SQL, and PostgreSQL. The program allows users to make transactions of any security available in yFinance's library. Transactions are implemented in real-time and portfolio performance metrics are displayed on the homepage. All positions and transactions are publicly viewable, making Trade Simulator a place for investment fanatics to compare portfolio performance in an open forum. 
+Trade Simulator is a Python-based Trade Simulation program that is built with Python, Django, SQL, and PostgreSQL. The program allows users to make transactions of any security available in yFinance's library. Transactions are implemented in real-time and portfolio values are displayed on the homepage. All positions and transactions are publicly viewable, making Trade Simulator a place for investment fanatics to compare portfolio performance in an open forum. 
 
 ## Features and Functionality
 - Simulate security transactions in real-time
