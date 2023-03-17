@@ -11,6 +11,7 @@ Trade Simulator is a Python-based Trade Simulation program that is built with Py
 - Python
 - SQL and PostgreSQL
 - HTML
+- Docker
 - JSON
 - VS Code
 - Git
