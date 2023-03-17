@@ -24,7 +24,6 @@ def update_position_and_transaction(request):
             user = request.user
             price = Decimal(yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1])
             cost = price
-            print(datetime.now(timezone.utc))
 
             # Get the position for this symbol if exists
             try:
