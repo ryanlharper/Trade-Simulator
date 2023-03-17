@@ -7,16 +7,14 @@
     <thead>
       <tr>
         <th>Username</th>
-        <th>MTD Return</th>
-        <th>YTD Return</th>
+        <th>Account Value</th>
       </tr>
     </thead>
     <tbody>
-      {% for user, values in user_accounts.items %}
+      {% for user_account in user_account_values %}
         <tr>
-          <td><a href="{% url 'user_positions' user.id %}">{{ user.username }}</a></td>
-          <td>{{ values.0 }}</td>
-          <td>{{ values.1 }}</td>
+          <td><a href="{% url 'user_positions' user_account.user_id %}">{{ user_account.user__username }}</a></td>
+          <td>{{ user_account.accountvalue__value }}</td>
         </tr>
       {% endfor %}
     </tbody>
