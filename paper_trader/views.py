@@ -4,7 +4,6 @@ from .forms import SignUpForm
 from user_accounts.models import AccountValue, UserAccount
 from django.views.generic import ListView
 from user_accounts.models import AccountValue, UserAccount
-from django.contrib.auth import get_user_model
 from django.db.models import Max
 
 

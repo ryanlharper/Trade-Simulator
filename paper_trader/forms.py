@@ -54,7 +54,7 @@ class TransactionForm(forms.ModelForm):
             cash_position = user_account.position.get(symbol='cash')
             if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
                 raise ValidationError("Not enough cash")
-            
+        
         
 
                 

@@ -4,10 +4,9 @@ from paper_trader.forms import TransactionForm
 import yfinance as yf
 from datetime import date
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
 from django.contrib import messages
 from .models import Transaction
-from user_accounts.models import AccountValue, UserAccount
+from user_accounts.models import UserAccount
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
 from datetime import datetime, timezone
@@ -26,7 +25,7 @@ def update_position_and_transaction(request):
             price = Decimal(yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1])
             cost = price
             print(datetime.now(timezone.utc))
-            
+
             # Get the position for this symbol if exists
             try:
                 position = Position.objects.get(user=request.user, symbol=symbol)
@@ -90,14 +89,6 @@ def update_position_and_transaction(request):
                 notes=notes
             )
             transaction.save()
-
-            # Update the account value
-            get_positions = Position.objects.filter(user=request.user)
-            account_value = AccountValue.objects.create(
-                user_account = user_account,
-                date=date.today(),
-            )
-            account_value.save()
 
             # Redirect to the success page
             messages.success(request, "Transaction successful")
