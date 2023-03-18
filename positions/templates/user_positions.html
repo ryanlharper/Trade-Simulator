@@ -3,7 +3,7 @@
 {% block content %}
 {{ block.super }}
 
-<h1>Positions for {{ user.username }}</h1>
+<h2>Positions for {{ user.username }}</h2>
 {% for position in positions %}
     <h2>{{ position.title }}</h2>
     <p>{{ position.description }}</p>

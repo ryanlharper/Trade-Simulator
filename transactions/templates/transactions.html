@@ -3,7 +3,7 @@
 {% block content %}
 {{ block.super }}
 
-  <h1>Create Transaction</h1>
+  <h2>Create Transaction</h2>
   <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
