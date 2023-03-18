@@ -50,8 +50,8 @@ class TransactionForm(forms.ModelForm):
 
         # check if funds are available for transaction
         if type == 'buy':
-            user_account = get_object_or_404(UserAccount, user=self.request.user)
-            cash_position = user_account.position.get(symbol='cash')
+            user = get_object_or_404(UserAccount, user=self.request.user)
+            cash_position = user.position.get(symbol='cash')
             if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
                 raise ValidationError("Not enough cash")
         
