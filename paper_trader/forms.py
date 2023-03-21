@@ -6,8 +6,6 @@ import yfinance as yf
 import pandas as pd
 import pandas_market_calendars as mcal
 from django.core.exceptions import ValidationError
-from positions.models import Position, Comment
-from django.shortcuts import get_object_or_404
 from datetime import datetime, timezone
 
 class TransactionForm(forms.ModelForm):
@@ -21,9 +19,7 @@ class TransactionForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        type = cleaned_data.get('type')
         symbol = cleaned_data.get('symbol').upper()
-        quantity = cleaned_data.get('quantity')
 
         # check if symbol is valid
         try:
@@ -43,7 +39,7 @@ class TransactionForm(forms.ModelForm):
             if timestamp < market_open or timestamp > market_close:
                 raise ValidationError('Market is closed')
         
-        # check if funds are available for buy transaction
+"""        # check if funds are available for buy transaction
         if type == 'buy':
             cash_position = get_object_or_404(Position.objects.get(user=self.request.user, symbol='cash'))
             if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
@@ -57,20 +53,9 @@ class TransactionForm(forms.ModelForm):
                 raise ValidationError("No shares to sell")
             if position is not None:
                 if quantity > position.quantity:
-                    raise ValidationError("Not enough shares to sell")
+                    raise ValidationError("Not enough shares to sell")"""
 
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2')
-
-class CommentForm(forms.ModelForm):
-    text = forms.CharField(widget=forms.Textarea(attrs={
-        'class': 'form-control',
-        'placeholder': 'Add a comment',
-        'rows': 3
-    }))
-    
-    class Meta:
-        model = Comment
-        fields = ('text',)

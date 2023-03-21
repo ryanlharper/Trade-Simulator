@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy, reverse
 from transactions.models import Transaction
 from django.contrib.auth.models import User
-from positions.models import Position, Comment
+from positions.models import Position
 from user_accounts.models import UserAccount
 from django.test import TestCase
 from transactions.views import TransactionForm
@@ -134,19 +134,3 @@ class TransactionFormBuyTestCase(TestCase):
                 self.assertFalse(form.is_valid())
                 self.assertIn('Not enough cash', form.non_field_errors())
 
-class AddCommentViewTest(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(
-            username='testuser', email='test@example.com', password='testpass'
-        )
-        self.url = reverse('add_comment')
-
-    def test_add_comment(self):
-        self.client.login(username='testuser', password='testpass')
-        data = {'text': 'This is a test comment.'}
-        response = self.client.post(self.url, data, follow=True)
-        self.assertRedirects(response, reverse('home'))
-        self.assertContains(response, 'Comment added successfully.')
-        comments = Comment.objects.filter(author=self.user)
-        self.assertEqual(comments.count(), 1)
-        self.assertEqual(comments.first().text, 'This is a test comment.')       

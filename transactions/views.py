@@ -2,14 +2,12 @@ from django.shortcuts import render, redirect
 from positions.models import Position
 from paper_trader.forms import TransactionForm
 import yfinance as yf
-from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Transaction
 from user_accounts.models import UserAccount
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
-from datetime import datetime, timezone
 
 @login_required
 def update_position_and_transaction(request):
@@ -33,6 +31,10 @@ def update_position_and_transaction(request):
 
             # Create or update position
             if transaction_type == 'buy':
+                cash_position = get_object_or_404(Position.objects.get(user=request.user, symbol='cash'))
+                if cash_position.quantity < price * quantity:
+                    messages.error(request, "Not enough cash to buy")
+                    return redirect('transactions')
                 if position is None:
                     position = Position.objects.create(
                     user=user,
@@ -55,28 +57,31 @@ def update_position_and_transaction(request):
                     cash_position.quantity -= price * quantity
                     cash_position.save()
             elif transaction_type == 'sell':
-                if position.quantity < quantity:
-                    messages.error(request, "Not enough shares to sell")
-                    return redirect('update_position_and_transaction')
-                elif position.quantity == quantity:
-                    #delete from positions
-                    position_to_delete = Position.objects.get(user=user, symbol=symbol)
-                    position_to_delete.delete()
-                    # update cash quantity
-                    cash_position = Position.objects.get(user=user, symbol='cash')
-                    cash_position.quantity += price * quantity
-                    cash_position.save()
+                if position is None:
+                    messages.error(request, "No shares to sell")
+                    return redirect('transactions')
                 else:
-                    #update position for partial sell
-                    position = Position.objects.get(user=user, symbol=symbol)
-                    position.quantity -= quantity
-                    position.price = price
-                    position.save()
-                    cash_position = Position.objects.get(user=user, symbol='cash')
-                    cash_position.quantity += price * quantity
-                    cash_position.save()
+                    if position.quantity < quantity:
+                        messages.error(request, "Not enough shares to sell")
+                        return redirect('transactions')
+                    elif position.quantity == quantity:
+                        #delete from positions
+                        position_to_delete = Position.objects.get(user=user, symbol=symbol)
+                        position_to_delete.delete()
+                        # update cash quantity
+                        cash_position = Position.objects.get(user=user, symbol='cash')
+                        cash_position.quantity += price * quantity
+                        cash_position.save()
+                    else:
+                        #update position for partial sell
+                        position = Position.objects.get(user=user, symbol=symbol)
+                        position.quantity -= quantity
+                        position.price = price
+                        position.save()
+                        cash_position = Position.objects.get(user=user, symbol='cash')
+                        cash_position.quantity += price * quantity
+                        cash_position.save()
             
-
             # Create a new transaction
             transaction = Transaction.objects.create(
                 user_account=user_account,

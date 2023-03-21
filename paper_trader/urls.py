@@ -18,8 +18,7 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView 
 from .views import SignUpView, LeaderboardView
 from transactions.views import update_position_and_transaction, success_view
-from positions.views import positions_view, user_positions, add_comment, add_reply
-from user_accounts.views import update
+from positions.views import positions_view, user_positions
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,10 +28,7 @@ urlpatterns = [
     path('transactions/', update_position_and_transaction, name='transactions'),
     path('positions/', positions_view, name='positions'),
     path('positions/<int:user_id>/', user_positions, name='user_positions'),
-    path('account/comment/', add_comment, name='add_account_comment'),
-    path('comment/<int:comment_id>/reply/', add_reply, name='add_reply'),
     path('success/', success_view, name='success'),
-    path('update/', update, name='update'),
 ]
 
 

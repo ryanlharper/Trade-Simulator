@@ -12,23 +12,15 @@
         <th>Market Value</th>
     </tr>
 {% for position in positions %}
-    <h2>{{ position.title }}</h2>
-    <p>{{ position.description }}</p>
-        <tr>
-            <td>{{ position.symbol }}</td>
-            <td>{{ position.quantity }}</td>
-            <td>{{ position.price }}</td>
-            <td>{{ position.market_value }}</td>
-        </tr>
-    </table>
+<h2>{{ position.title }}</h2>
+<p>{{ position.description }}</p>
+    <tr>
+        <td>{{ position.symbol }}</td>
+        <td>{{ position.quantity }}</td>
+        <td>{{ position.price }}</td>
+    </tr>
+</table>
 {% empty %}
     <p>No positions found.</p>
 {% endfor %}
-
-<h3>Add a Comment</h3>
-<form method="post" action="{% url 'add_account_comment' %}">
-    {% csrf_token %}
-    <input type="text" name="text">
-    <input type="submit" value="Comment">
-</form>
 {% endblock %}

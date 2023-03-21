@@ -20,27 +20,3 @@ class Position(models.Model):
         total_portfolio_value = sum(position.market_value() for position in user_positions)
         return (self.market_value() / total_portfolio_value) * 100
 
-class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.text
-
-    def get_absolute_url(self):
-        return reverse('user_positions')
-    
-class Reply(models.Model):
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    created_date = models.DateTimeField(auto_now_add=True)
-    updated_date = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.text
-
-    def get_absolute_url(self):
-        return reverse('user_positions')
