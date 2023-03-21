@@ -10,5 +10,6 @@
 /transactions/migrations/
 /positions/migrations/
 .dockerignore
-
+cli_notes.txt
+/__pycache__/
 
