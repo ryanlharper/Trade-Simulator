@@ -21,7 +21,6 @@ class Position(models.Model):
         return (self.market_value() / total_portfolio_value) * 100
 
 class Comment(models.Model):
-    position = models.ForeignKey(Position, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)

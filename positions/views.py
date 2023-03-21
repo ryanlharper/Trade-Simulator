@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Position
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
 from .models import User, Position, Comment, Reply
+from django.contrib import messages
+from paper_trader.forms import CommentForm
 
 @login_required
 def positions_view(request):
@@ -15,8 +16,8 @@ def positions_view(request):
 def user_positions(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     positions = Position.objects.filter(user=user)
-    comments = Comment.objects.filter(position__in=positions)
-    replies = Reply.objects.filter(comment__position__in=positions)
+    comments = Comment.objects.filter(author=user)
+    replies = Reply.objects.filter(comment__author=user)
     context = {
         'user': user,
         'positions': positions,
@@ -25,26 +26,20 @@ def user_positions(request, user_id):
     }
     return render(request, 'user_positions.html', context)
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import Position, Comment, Reply
-
 @login_required
-def add_comment(request, position_id):
-    position = get_object_or_404(Position, pk=position_id)
+def add_comment(request):
     if request.method == 'POST':
-        text = request.POST.get('text')
-        if not text:
-            messages.error(request, 'Comment cannot be empty.')
-            return redirect('user_positions', user_id=position.user.id)
-        comment = Comment.objects.create(
-            text=text,
-            author=request.user,
-            position=position
-        )
-        messages.success(request, 'Comment added.')
-        return redirect('user_positions', user_id=position.user.id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.save()
+            messages.success(request, 'Comment added successfully.')
+            return redirect('home')
+    else:
+        form = CommentForm()
+    return render(request, 'add_comment.html', {'form': form})
+
 
 @login_required
 def add_reply(request, comment_id):
@@ -54,12 +49,11 @@ def add_reply(request, comment_id):
         text = request.POST.get('text')
         if not text:
             messages.error(request, 'Reply cannot be empty.')
-            return redirect('user_positions', user_id=position.user.id)
+            return redirect('positions')  
         reply = Reply.objects.create(
             text=text,
             author=request.user,
             comment=comment
         )
         messages.success(request, 'Reply added.')
-        return redirect('user_positions', user_id=position.user.id)
-
+        return redirect('positions')  
