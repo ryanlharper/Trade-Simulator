@@ -111,26 +111,26 @@ class TransactionFormBuyTestCase(TestCase):
         )
 
     def test_cash_position_for_buy(self):
-        form_data = {
+        data = {
             'type': 'buy',
             'symbol': 'AAPL',
             'quantity': 10,
             'notes': 'cash check pass'
         }
-        form = TransactionForm(data=form_data)
+        form = TransactionForm(data=data)
         if form.is_valid():
             self.assertTrue(True)
         else:
             if '__all__' in form.errors and 'Market is closed' in form.errors['__all__']:
                 self.assertTrue(True)
             else:
-                form_data = {
+                data = {
                 'type': 'buy',
                 'symbol': 'AAPL',
                 'quantity': 100000,
                 'notes': 'cash check fail'
                 }
-                form = TransactionForm(data=form_data)
+                form = TransactionForm(data=data)
                 self.assertFalse(form.is_valid())
                 self.assertIn('Not enough cash', form.non_field_errors())
         
