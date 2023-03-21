@@ -12,4 +12,4 @@
 .dockerignore
 cli_notes.txt
 /__pycache__/
-
+/.pytest_cache/
