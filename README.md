@@ -30,3 +30,15 @@ Thank you for your interest in contributing to Trade Simulator! As this is a per
 ##### Testing and Quality Assurance
 - Develop automated tests to ensure that Trade Simulator functions as expected and to catch bugs early
 - Conduct regular testing to ensure that Trade Simulator is user-friendly and free of defects
+
+### Installation Instructions
+1. Clone the repository: 
+	- git clone https://github.com/ryanlharper/Trade-Simulator
+2. Build a Docker image:
+	- docker build -t trade-simulator-web-1 .
+3. Start containers: 
+	- docker compose up -d
+4. Migrate database: 
+	- docker-compose exec web python manage.py migrate
+5. Create database superuser: 
+	- docker compose exec web python manage.py createsuperuser
