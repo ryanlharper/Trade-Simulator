@@ -18,7 +18,6 @@ class LeaderboardView(ListView):
     def get_queryset(self):
         latest_account_values = AccountValue.objects.filter(
             id__in=AccountValue.objects.select_related('user_account'))
-        print(str(latest_account_values.query))
         return latest_account_values
 
     def get_context_data(self, **kwargs):
