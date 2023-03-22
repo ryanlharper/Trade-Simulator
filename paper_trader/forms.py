@@ -7,8 +7,6 @@ import pandas as pd
 import pandas_market_calendars as mcal
 from django.core.exceptions import ValidationError
 from datetime import datetime, timezone
-from django.shortcuts import get_object_or_404
-from positions.models import Position
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -47,23 +45,6 @@ class TransactionForm(forms.ModelForm):
             if timestamp < market_open or timestamp > market_close:
                 raise ValidationError('Market is closed')
         
-        
-       # check if funds are available for buy transaction MOVED TO VIEW
-        if type == 'buy':
-            cash_position = get_object_or_404(Position.objects.filter(user=self.user, symbol='cash'))
-            if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
-                raise ValidationError("Not enough cash")
-
-        # chack if shares are available for sell transaction
-    """ else:
-        try:
-            position = get_object_or_404(Position.objects.get(user=self.request.user, symbol=symbol))
-        except Position.DoesNotExist:
-            raise ValidationError("No shares to sell")
-        if position is not None:
-            if quantity > position.quantity:
-                raise ValidationError("Not enough shares to sell")"""
-
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User
