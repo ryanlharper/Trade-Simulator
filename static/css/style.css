@@ -1,0 +1,50 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+thead tr {
+  background-color: #f2f2f2;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+td:first-child,
+th:first-child {
+  width: 20%;
+}
+
+td:nth-child(2),
+th:nth-child(2) {
+  width: 10%;
+}
+
+td:nth-child(3),
+th:nth-child(3) {
+  width: 10%;
+}
+
+td:nth-child(4),
+th:nth-child(4) {
+  width: 10%;
+}
+
+td:nth-child(5),
+th:nth-child(5) {
+  width: 10%;
+}
+
+td:last-child,
+th:last-child {
+  width: 40%;
+}
