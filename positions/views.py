@@ -6,14 +6,14 @@ from .models import User, Position
 @login_required
 def positions_view(request):
     user = request.user
-    positions = Position.objects.filter(user=user)
+    positions = Position.objects.filter(user=user).order_by('symbol')
     context = {'positions': positions}
     return render(request, 'positions.html', context)
 
 @login_required
 def user_positions(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    positions = Position.objects.filter(user=user)
+    positions = Position.objects.filter(user=user).order_by('symbol')
     context = {
         'user': user,
         'positions': positions,
