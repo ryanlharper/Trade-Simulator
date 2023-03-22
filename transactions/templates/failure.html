@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Transaction Failed{% endblock %}
+{% block content %}
+{{ block.super }}
+
+
+{% if error_message %}
+<p>{{ error_message }}</p>
+{% else %}
+<p>The transaction could not be completed.</p>
+{% endif %}
+{% endblock %}

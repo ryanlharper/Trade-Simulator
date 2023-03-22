@@ -32,10 +32,10 @@ def update_position_and_transaction(request):
 
             # Create or update position
             if transaction_type == 'buy':
-                cash_position = get_object_or_404(Position.objects.get(user=request.user, symbol='cash'))
+                cash_position = get_object_or_404(Position.objects.filter(user=request.user, symbol='cash'))
                 if cash_position.quantity < price * quantity:
                     messages.error(request, "Not enough cash to buy")
-                    return redirect('transactions')
+                    return redirect('failure')
                 if position is None:
                     position = Position.objects.create(
                     user=user,
@@ -60,11 +60,11 @@ def update_position_and_transaction(request):
             elif transaction_type == 'sell':
                 if position is None:
                     messages.error(request, "No shares to sell")
-                    return redirect('transactions')
+                    return redirect('failure')
                 else:
                     if position.quantity < quantity:
                         messages.error(request, "Not enough shares to sell")
-                        return redirect('transactions')
+                        return redirect('failure')
                     elif position.quantity == quantity:
                         #delete from positions
                         position_to_delete = Position.objects.get(user=user, symbol=symbol)
@@ -109,6 +109,9 @@ def update_position_and_transaction(request):
 
 def success_view(request):
     return render(request, 'success.html')
+
+def failure_view(request):
+    return render(request, 'failure.html')
 
 @login_required
 def user_transactions_view(request):
