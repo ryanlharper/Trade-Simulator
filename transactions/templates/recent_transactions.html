@@ -19,7 +19,7 @@
             <td>{{ transaction.user.username }}</td>
             <td>{{ transaction.timestamp|date:"F j, Y" }}</td>
             <td>{{ transaction.type }}</td>
-            <td>{{ transaction.symbol }}</td>
+            <td>{{ transaction.symbol|upper }}</td>
             <td>{{ transaction.quantity }}</td>
             <td>{{ transaction.price }}</td>
             <td>{{ transaction.notes }}</td>

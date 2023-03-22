@@ -3,7 +3,7 @@
 {% block content %}
 {{ block.super }}
 
-<h2>Transactions for {{ user.username }}</h2>
+<h2>My Transactions</h2>
 <table>
     <tr>
         <th>Date</th>
@@ -17,7 +17,7 @@
         <tr>
             <td>{{ transaction.timestamp|date:"F j, Y" }}</td>
             <td>{{ transaction.type }}</td>
-            <td>{{ transaction.symbol }}</td>
+            <td>{{ transaction.symbol|upper }}</td>
             <td>{{ transaction.quantity }}</td>
             <td>{{ transaction.price }}</td>
             <td>{{ transaction.notes }}</td>

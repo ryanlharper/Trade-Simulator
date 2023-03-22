@@ -15,7 +15,7 @@
 <h2>{{ position.title }}</h2>
 <p>{{ position.description }}</p>
     <tr>
-        <td>{{ position.symbol }}</td>
+        <td>{{ position.symbol|upper }}</td>
         <td>{{ position.quantity|floatformat:"0" }}</td>
         <td>{{ position.price|floatformat:"2" }}</td>
         <td>{{ position.market_value|floatformat:"2" }}</td>

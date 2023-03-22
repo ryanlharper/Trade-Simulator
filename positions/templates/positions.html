@@ -3,7 +3,7 @@
 {% block content %}
 {{ block.super }}
 
-  <h2>Positions</h2>
+  <h2>My Positions</h2>
   <table>
     <thead>
       <tr>
@@ -19,7 +19,7 @@
     <tbody>
       {% for position in positions %}
       <tr>
-        <td>{{ position.symbol }}</td>
+        <td>{{ position.symbol|upper }}</td>
         <td>{{ position.quantity|floatformat:"0" }}</td>
         <td>{{ position.price }}</td>
         <td>{{ position.cost }}</td>
