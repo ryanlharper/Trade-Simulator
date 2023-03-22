@@ -20,6 +20,7 @@ class TransactionForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         symbol = cleaned_data.get('symbol').upper()
+        quantity = cleaned_data.get('quantity')
 
         # check if symbol is valid
         try:
@@ -27,6 +28,11 @@ class TransactionForm(forms.ModelForm):
         except:
             raise ValidationError("Invalid symbol")
         
+        # check for positive quantity
+        if quantity <=0:
+            raise ValidationError("Quantity must be greater than zero.")
+        
+        # check if market open
         timestamp = datetime.now(timezone.utc)
         nyse = mcal.get_calendar('NYSE')
         schedule = nyse.schedule(start_date=timestamp.date(), end_date=timestamp.date())
@@ -39,7 +45,8 @@ class TransactionForm(forms.ModelForm):
             if timestamp < market_open or timestamp > market_close:
                 raise ValidationError('Market is closed')
         
-"""        # check if funds are available for buy transaction
+        
+"""        # check if funds are available for buy transaction MOVED TO VIEW
         if type == 'buy':
             cash_position = get_object_or_404(Position.objects.get(user=self.request.user, symbol='cash'))
             if cash_position.quantity < yf.Ticker(symbol).history(period='1d')['Close'].iloc[-1] * quantity:
