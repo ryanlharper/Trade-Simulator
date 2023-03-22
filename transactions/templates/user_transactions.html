@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ block.super }}
+
+<h2>Transactions for {{ user.username }}</h2>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    {% for transaction in transactions %}
+        <tr>
+            <td>{{ transaction.timestamp|date:"F j, Y" }}</td>
+            <td>{{ transaction.type }}</td>
+            <td>{{ transaction.symbol }}</td>
+            <td>{{ transaction.quantity }}</td>
+            <td>{{ transaction.price }}</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="5">No transactions found.</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

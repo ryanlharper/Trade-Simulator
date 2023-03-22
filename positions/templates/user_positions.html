@@ -19,8 +19,10 @@
         <td>{{ position.quantity }}</td>
         <td>{{ position.price }}</td>
     </tr>
-</table>
-{% empty %}
-    <p>No positions found.</p>
+    {% empty %}
+    <tr>
+        <td colspan="4">No positions found.</td>
+    </tr>
 {% endfor %}
+</table>
 {% endblock %}

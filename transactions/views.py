@@ -8,6 +8,7 @@ from .models import Transaction
 from user_accounts.models import UserAccount
 from django.shortcuts import get_object_or_404
 from decimal import Decimal
+from datetime import datetime, timedelta
 
 @login_required
 def update_position_and_transaction(request):
@@ -108,3 +109,17 @@ def update_position_and_transaction(request):
 
 def success_view(request):
     return render(request, 'success.html')
+
+@login_required
+def user_transactions_view(request):
+    user = request.user
+    transactions = Transaction.objects.filter(user=user)
+    context = {'transactions': transactions}
+    return render(request, 'user_transactions.html', context)
+
+def recent_transactions_view(request):
+    end_date = datetime.now().date()
+    start_date = end_date - timedelta(days=7)
+    transactions = Transaction.objects.filter(timestamp__range=(start_date, end_date)).order_by('-timestamp')
+    context = {'transactions': transactions}
+    return render(request, 'recent_transactions.html', context)

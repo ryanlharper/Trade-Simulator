@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView 
 from .views import SignUpView, LeaderboardView
-from transactions.views import update_position_and_transaction, success_view
+from transactions.views import update_position_and_transaction, success_view, user_transactions_view, recent_transactions_view
 from positions.views import positions_view, user_positions
 
 urlpatterns = [
@@ -26,6 +26,8 @@ urlpatterns = [
     path('', LeaderboardView.as_view(), name='home'),
     path('register/', SignUpView.as_view(), name='register'),
     path('transactions/', update_position_and_transaction, name='transactions'),
+    path('user_transactions/', user_transactions_view, name='user_transactions'),
+    path('recent_transactions/', recent_transactions_view, name='recent_transactions'),
     path('positions/', positions_view, name='positions'),
     path('positions/<int:user_id>/', user_positions, name='user_positions'),
     path('success/', success_view, name='success'),
