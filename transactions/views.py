@@ -116,7 +116,7 @@ def failure_view(request):
 @login_required
 def user_transactions_view(request):
     user = request.user
-    transactions = Transaction.objects.filter(user=user)
+    transactions = Transaction.objects.filter(user=user).order_by('-timestamp')
     context = {'transactions': transactions}
     return render(request, 'user_transactions.html', context)
 
