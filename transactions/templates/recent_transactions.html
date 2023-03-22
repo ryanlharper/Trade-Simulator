@@ -12,6 +12,7 @@
         <th>Symbol</th>
         <th>Quantity</th>
         <th>Price</th>
+        <th>Notes</th>
     </tr>
     {% for transaction in transactions %}
         <tr>
@@ -21,6 +22,7 @@
             <td>{{ transaction.symbol }}</td>
             <td>{{ transaction.quantity }}</td>
             <td>{{ transaction.price }}</td>
+            <td>{{ transaction.notes }}</td>
         </tr>
     {% empty %}
         <tr>
