@@ -26,7 +26,7 @@ class LeaderboardView(ListView):
             UserAccount.objects
             .filter(user__is_superuser=False) 
             .annotate(latest_account_value=Max('accountvalue__date'))
-            .values('user__username', 'user_id', 'latest_account_value', 'accountvalue__value')
+            .values('user__username', 'user_id', 'latest_account_value', 'accountvalue__value', 'user__date_joined')
             .order_by('-accountvalue__value')
         )
         context['user_account_values'] = user_account_values

@@ -8,6 +8,7 @@
       <tr>
         <th>Username</th>
         <th>Account Value</th>
+        <th>Inception Date</th>
       </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
         <tr>
           <td><a href="{% url 'user_positions' user_account.user_id %}">{{ user_account.user__username }}</a></td>
           <td>{{ user_account.accountvalue__value }}</td>
+          <td>{{ user_account.user__date_joined|date:"F j, Y" }}</td>
         </tr>
       {% endfor %}
     </tbody>
