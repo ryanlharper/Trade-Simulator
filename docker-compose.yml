@@ -17,7 +17,7 @@ services:
       - DB_PORT=5432
       - DATABASE=postgres
       - VIRTUAL_HOST=ec2-3-132-118-20.us-east-2.compute.amazonaws.com
-      - VIRTUAL_PORT =8000
+      - VIRTUAL_PORT=8000
   nginx:
     build: ./nginx
     image: 042055608882.dkr.ecr.us-east-2.amazonaws.com/trade-simulator_nginx
