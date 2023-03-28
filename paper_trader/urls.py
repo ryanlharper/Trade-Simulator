@@ -20,6 +20,9 @@ from .views import SignUpView, LeaderboardView
 from transactions.views import update_position_and_transaction, success_view
 from transactions.views import user_transactions_view, recent_transactions_view, failure_view
 from positions.views import positions_view, user_positions
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +36,6 @@ urlpatterns = [
     path('positions/<int:user_id>/', user_positions, name='user_positions'),
     path('success/', success_view, name='success'),
     path('failure/', failure_view, name='failure'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 
