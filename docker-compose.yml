@@ -2,32 +2,46 @@ version: "3.8"
 services:
   web:
     build: .
-    image: 042055608882.dkr.ecr.us-east-2.amazonaws.com/trade_simulator_aws2:trade-simulator_web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/usr/src/app/
-      - static_volume:/usr/src/app/static
-    expose:
-      - 8000
+    ports:
+      - 8000:8000
     environment:
-      - DB_NAME=paper_trader
+      - DB_NAME=postgres
       - DB_USER=postgres
       - DB_PASSWORD=admin123
-      - DB_HOST=trade-simulator.c7vakecgeb2y.us-east-2.rds.amazonaws.com
+      - DB_HOST=pg
       - DB_PORT=5432
       - DATABASE=postgres
-      - VIRTUAL_HOST=ec2-3-132-118-20.us-east-2.compute.amazonaws.com
-      - VIRTUAL_PORT=8000
-  nginx:
-    build: ./nginx
-    image: 042055608882.dkr.ecr.us-east-2.amazonaws.com/trade-simulator_nginx
-    volumes:
-      - static_volume:/usr/src/app/static
-    ports:
-      - 8000:80
+      - SECRET_KEY=mysecretkey
     depends_on:
-      - web
-volumes:
-  static_volume:
-
-  
+      - pg
+  pg:
+      container_name: pg_container
+      image: postgres:13.2-alpine
+      restart: always
+      environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: admin123
+          POSTGRES_DB: paper_trader
+          POSTGRES_HOST_AUTH_METHOD: trust
+      ports:
+          - "5432:5432"
+      volumes:
+          - ./data:/data
+          - ./data/misc/django_init.sql:/docker-entrypoint-initdb.d/1-django-init.sql
+  pgadmin:
+      container_name: pgadmin_container
+      image: dpage/pgadmin4:5.2
+      restart: always
+      environment:
+          PGADMIN_DEFAULT_EMAIL: admin@example.com
+          PGADMIN_DEFAULT_PASSWORD: admin123
+          PGADMIN_LISTEN_PORT: 5433
+          PGADMIN_CONFIG_SERVER_MODE: "False"
+          PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      ports:
+          - "5433:5433"
+      depends_on:
+          - pg
