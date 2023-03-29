@@ -21,6 +21,7 @@ from transactions.views import update_position_and_transaction, success_view
 from transactions.views import user_transactions_view, recent_transactions_view, failure_view
 from positions.views import positions_view, user_positions
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
