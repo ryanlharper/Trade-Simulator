@@ -32,8 +32,8 @@ Thank you for your interest in contributing to Trade Simulator! As this is a per
 - Conduct regular testing to ensure that Trade Simulator is user-friendly and free of defects
 
 ### Local Installation Instructions
-1. Clone the repository's main branch: 
-	- git clone -b new-branch-main https://github.com/ryanlharper/Trade-Simulator.git
+1. Clone the repository: 
+	- git clone https://github.com/ryanlharper/Trade-Simulator.git
 2. Build a Docker image:
 	- docker build -t trade-simulator:1.0 .
 3. Start containers: 
