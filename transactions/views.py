@@ -16,7 +16,7 @@ def update_position_and_transaction(request):
         form = TransactionForm(request.POST)
         if form.is_valid() and request.user.is_authenticated:
             transaction_type = form.cleaned_data['type']
-            symbol = form.cleaned_data['symbol']
+            symbol = form.cleaned_data['symbol'].upper()
             quantity = form.cleaned_data['quantity']
             notes = form.cleaned_data['notes']
             user_account = get_object_or_404(UserAccount, user=request.user)
