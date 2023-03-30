@@ -43,5 +43,5 @@ Trade Simulator is a Python-based Trade Simulation program that is built with Py
 6. Run program:
 	- navigate browser to localhost:8000
 
-### Screenshots
+### Screenshot:
 ![Alt text](screenshots/home.png?raw=true "Home Page")
