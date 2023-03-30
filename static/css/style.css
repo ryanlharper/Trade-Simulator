@@ -53,3 +53,10 @@ td:last-child,
 th:last-child {
   width: 15%;
 }
+
+span.negative_pct {
+  color: red;
+}
+span.negative_dollar {
+  color: red;
+}

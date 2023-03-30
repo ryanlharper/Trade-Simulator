@@ -18,16 +18,20 @@
       </tr>
     </thead>
     <tbody>
-      {% for position in positions %}
+      {% for position_dict in position_data %}
       <tr>
-        <td>{{ position.symbol|upper }}</td>
-        <td>{{ position.quantity|floatformat:"0"|intcomma }}</td>
-        <td>${{ position.price }}</td>
-        <td>${{ position.cost }}</td>
-        <td>{{ position.price_return|floatformat:"2" }}%</td>
-        <td>${{ position.dollar_return|floatformat:"2"|intcomma }}</td>
-        <td>${{ position.market_value|floatformat:"0"|intcomma }}</td>
-        <td>{{ position.percent_portfolio|floatformat:"2" }}%</td>
+        <td>{{ position_dict.position.symbol|upper }}</td>
+        <td>{{ position_dict.position.quantity|floatformat:"0"|intcomma }}</td>
+        <td>{{ position_dict.position.price }}</td>
+        <td>{{ position_dict.position.cost }}</td>
+        <td><span class="{{ position_dict.css_class_pct }}">{{ position_dict.position.price_return|floatformat:"2" }}%</span></td>
+        {% if position_dict.position.dollar_return < 0 %}
+          <td><span class="{{ position_dict.css_class_dollar }}">(${{ position_dict.position.dollar_return|floatformat:"2"|cut:"-"|intcomma }})</span></td>
+        {% else %}
+        <td><span class="{{ position_dict.css_class_dollar }}">${{ position_dict.position.dollar_return|floatformat:"2"|intcomma }}</span></td>
+        {% endif %}
+        <td>${{ position_dict.position.market_value|floatformat:"0"|intcomma }}</td>
+        <td>{{ position_dict.position.percent_portfolio|floatformat:"2" }}%</td>
       </tr>
       {% empty %}
       <tr>
