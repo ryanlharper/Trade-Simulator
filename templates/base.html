@@ -4,20 +4,21 @@
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
   <title>{% block title %}Trade Simulator{% endblock %}</title>
 </head>
 <body>
   <main>
     {% block content %}
     <nav>
-      <a href="/">Home</a> |
-      <a href="/register">Register</a> |
-      <a href="{% url 'login' %}">Login</a> |
-      <a href="{% url 'positions' %}">My Positions</a> |
-      <a href="{% url 'user_transactions' %}">My Transactions</a> |
-      <a href="{% url 'recent_transactions' %}">Recent Transaction</a> |
-      <a href="{% url 'transactions' %}">Create Transaction</a> |
-      <a href="{% url 'logout' %}">Logout</a> |       
+      <button class="btn"><a href="/">Home</a></button>
+      <button class="btn"><a href="/register">Register</a></button>
+      <button class="btn"><a href="{% url 'login' %}">Login</a></button>
+      <button class="btn"><a href="{% url 'positions' %}">My Positions</a></button>
+      <button class="btn"><a href="{% url 'user_transactions' %}">My Transactions</a></button>
+      <button class="btn"><a href="{% url 'recent_transactions' %}">Recent Transaction</a></button>
+      <button class="btn"><a href="{% url 'transactions' %}">Create Transaction</a></button>
+      <button class="btn"><a href="{% url 'logout' %}">Logout</a></button>    
     </nav>
     {% endblock %}
   </main>

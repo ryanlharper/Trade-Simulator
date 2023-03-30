@@ -17,7 +17,7 @@
     {% for transaction in transactions %}
         <tr>
             <td>{{ transaction.user.username }}</td>
-            <td>{{ transaction.timestamp|date:"F j, Y" }}</td>
+            <td>{{ transaction.timestamp|date:"m/d/y" }}</td>
             <td>{{ transaction.type }}</td>
             <td>{{ transaction.symbol|upper }}</td>
             <td>{{ transaction.quantity|intcomma }}</td>
