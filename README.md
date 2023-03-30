@@ -43,32 +43,5 @@ Trade Simulator is a Python-based Trade Simulation program that is built with Py
 6. Run program:
 	- navigate browser to localhost:8000
 
-### Google Cloud Installation Instructions
-1. Replace the settings.py contents with gcloud_settings.txt contents
-2. Remove files & folders:
-	- Files: Dockerfile, docker-compose.yml, .gitignore and README.md 
-	- Folders: .vscode and data
-3. Create a new Google Cloud project in Google Cloud Console
-4. Open Google Cloud Shell and set variables
-	- REGION= 
-	- PGSERVER=
-	- DBNAME= 
-	- REPO= 
-	- IMAGE= 
-	- PROJECT_ID=$(gcloud config get-value project)
-	- PROJECT_NUM=$(gcloud projects describe $PROJECT_ID --format 'value(projectNumber)')
-5. Enable cloud APIs
-6. Set up Google Cloud SQL and Google Storage Bucket
-	- Create Postgres database
-	- Create Postgres user account and password
-	- Allow Cloud Build to access Postgres
-	- Set up Google Storage Bucket for static files
-7. Store configuration and allow Cloud Build and Cloud Run access
-8. Set up Django and Docker files
-	- Transfer program files to server 
-	- Create Dockerfile with contents of gcloud_Dockerfile.txt
-9. Build and push image to Artifact Registry
-10. Run migrations and collect static files
-	- Create cloudmigrate.yml with contents of gcloud_cloudmigrate_yaml.txt
-	- Execute migrations to Postgres server
-11. Deploy and test 
+### Screenshots
+![Alt text](screenshots/home.png?raw=true "Home Page")
