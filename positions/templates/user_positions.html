@@ -2,7 +2,7 @@
 
 {% block content %}
 {{ block.super }}
-
+{% load humanize %}
 <h2>Positions for {{ user.username }}</h2>
 <table>
     <tr>
@@ -16,9 +16,9 @@
 <p>{{ position.description }}</p>
     <tr>
         <td>{{ position.symbol|upper }}</td>
-        <td>{{ position.quantity|floatformat:"0" }}</td>
-        <td>{{ position.price|floatformat:"2" }}</td>
-        <td>{{ position.market_value|floatformat:"2" }}</td>
+        <td>{{ position.quantity|floatformat:"0"|intcomma }}</td>
+        <td>${{ position.price|floatformat:"2" }}</td>
+        <td>${{ position.market_value|floatformat:"0"|intcomma }}</span></td>
     </tr>
     {% empty %}
     <tr>

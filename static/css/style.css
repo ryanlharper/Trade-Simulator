@@ -21,7 +21,7 @@ tbody tr:nth-child(even) {
 
 td:first-child,
 th:first-child {
-  width: 20%;
+  width: 10%;
 }
 
 td:nth-child(2),
@@ -41,10 +41,15 @@ th:nth-child(4) {
 
 td:nth-child(5),
 th:nth-child(5) {
-  width: 10%;
+  width: 15%;
+}
+
+td:nth-child(6),
+th:nth-child(6) {
+  width: 15%;
 }
 
 td:last-child,
 th:last-child {
-  width: 40%;
+  width: 15%;
 }

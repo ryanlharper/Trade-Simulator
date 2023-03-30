@@ -2,6 +2,7 @@
 
 {% block content %}
 {{ block.super }}
+{% load humanize %}
   <h2>Leaderboard</h2>
   <table>
     <thead>
@@ -15,7 +16,7 @@
       {% for user_account in user_account_values %}
         <tr>
           <td><a href="{% url 'user_positions' user_account.user_id %}">{{ user_account.user__username }}</a></td>
-          <td>{{ user_account.accountvalue__value }}</td>
+          <td>${{ user_account.accountvalue__value|floatformat:"0"|intcomma }}</td>
           <td>{{ user_account.user__date_joined|date:"F j, Y" }}</td>
         </tr>
       {% endfor %}

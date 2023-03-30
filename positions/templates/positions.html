@@ -2,7 +2,7 @@
 
 {% block content %}
 {{ block.super }}
-
+{% load humanize %}
   <h2>My Positions</h2>
   <table>
     <thead>
@@ -13,19 +13,19 @@
         <th>Cost</th>
         <th>Price Return</th>
         <th>Market Value</th>
-        <th>% of Portfolio</th>
+        <th>Allocation</th>
       </tr>
     </thead>
     <tbody>
       {% for position in positions %}
       <tr>
         <td>{{ position.symbol|upper }}</td>
-        <td>{{ position.quantity|floatformat:"0" }}</td>
-        <td>{{ position.price }}</td>
-        <td>{{ position.cost }}</td>
-        <td>{{ position.price_return|floatformat:"2" }}</td>
-        <td>{{ position.market_value|floatformat:"2" }}</td>
-        <td>{{ position.percent_portfolio|floatformat:"2" }}</td>
+        <td>{{ position.quantity|floatformat:"0"|intcomma }}</td>
+        <td>${{ position.price }}</td>
+        <td>${{ position.cost }}</td>
+        <td>{{ position.price_return|floatformat:"2" }}%</td>
+        <td>${{ position.market_value|floatformat:"0"|intcomma }}</td>
+        <td>{{ position.percent_portfolio|floatformat:"2" }}%</td>
       </tr>
       {% empty %}
       <tr>

@@ -2,7 +2,7 @@
 
 {% block content %}
 {{ block.super }}
-
+{% load humanize %}
 <h2>My Transactions</h2>
 <table>
     <tr>
@@ -18,8 +18,8 @@
             <td>{{ transaction.timestamp|date:"F j, Y" }}</td>
             <td>{{ transaction.type }}</td>
             <td>{{ transaction.symbol|upper }}</td>
-            <td>{{ transaction.quantity }}</td>
-            <td>{{ transaction.price }}</td>
+            <td>{{ transaction.quantity|intcomma }}</td>
+            <td>${{ transaction.price|floatformat:"2"|intcomma }}</td>
             <td>{{ transaction.notes }}</td>
         </tr>
     {% empty %}
