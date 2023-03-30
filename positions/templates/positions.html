@@ -11,7 +11,8 @@
         <th>Quantity</th>
         <th>Price</th>
         <th>Cost</th>
-        <th>Price Return</th>
+        <th>Percent Return</th>
+        <th>Dollar Return</th>
         <th>Market Value</th>
         <th>Allocation</th>
       </tr>
@@ -24,6 +25,7 @@
         <td>${{ position.price }}</td>
         <td>${{ position.cost }}</td>
         <td>{{ position.price_return|floatformat:"2" }}%</td>
+        <td>${{ position.dollar_return|floatformat:"2"|intcomma }}</td>
         <td>${{ position.market_value|floatformat:"0"|intcomma }}</td>
         <td>{{ position.percent_portfolio|floatformat:"2" }}%</td>
       </tr>

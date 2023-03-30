@@ -9,6 +9,7 @@
         <th>Symbol</th>
         <th>Quantity</th>
         <th>Price</th>
+        <th>Return</th>
         <th>Market Value</th>
     </tr>
 {% for position in positions %}
@@ -18,11 +19,12 @@
         <td>{{ position.symbol|upper }}</td>
         <td>{{ position.quantity|floatformat:"0"|intcomma }}</td>
         <td>${{ position.price|floatformat:"2" }}</td>
+        <td>${{ position.dollar_return|floatformat:"2"|intcomma }}</td>
         <td>${{ position.market_value|floatformat:"0"|intcomma }}</span></td>
     </tr>
     {% empty %}
     <tr>
-        <td colspan="4">No positions found.</td>
+        <td colspan="5">No positions found.</td>
     </tr>
 {% endfor %}
 </table>

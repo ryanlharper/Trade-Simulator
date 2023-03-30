@@ -19,4 +19,6 @@ class Position(models.Model):
         user_positions = Position.objects.filter(user=self.user)
         total_portfolio_value = sum(position.market_value() for position in user_positions)
         return (self.market_value() / total_portfolio_value) * 100
-
+    
+    def dollar_return(self):
+        return((self.price - self.cost)*self.quantity)
