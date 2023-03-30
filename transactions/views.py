@@ -123,7 +123,7 @@ def user_transactions_view(request):
 @login_required
 def recent_transactions_view(request):
     end_date = datetime.now().date() + timedelta(days=1)
-    start_date = end_date - timedelta(days=8)
+    start_date = end_date - timedelta(days=4)
     transactions = Transaction.objects.filter(timestamp__range=(start_date, end_date)).order_by('-timestamp')
     context = {'transactions': transactions}
     return render(request, 'recent_transactions.html', context)
