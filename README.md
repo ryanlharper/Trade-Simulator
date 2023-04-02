@@ -32,15 +32,17 @@ Trade Simulator is a Python-based Trade Simulation program that is built with Py
 ### Local Installation Instructions
 1. Clone the repository: 
 	- git clone https://github.com/ryanlharper/Trade-Simulator.git
-2. Build a Docker image:
+2. Create a virtual environment:
+	- python -m venv venv
+3. Build a Docker image:
 	- docker build -t trade-simulator:1.0 .
-3. Start containers: 
+4. Start containers: 
 	- docker compose up -d
-4. Migrate database: 
+5. Migrate database: 
 	- docker-compose exec web python manage.py migrate
-5. Create database superuser: 
+6. Create database superuser: 
 	- docker compose exec web python manage.py createsuperuser
-6. Run program:
+7. Run program:
 	- navigate browser to localhost:8000
 
 ### Screenshots:

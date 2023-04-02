@@ -14,4 +14,3 @@ cli_notes.txt
 /__pycache__/
 /.pytest_cache/
 /paper_trader/.pytest_cache/
-gcloud_notes.docx
